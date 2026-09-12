@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GrowBoost — طلب خدمة نمو</title>
+<style>
+body{font-family:Arial;margin:0;background:#f4f7fb;color:#172033}header{background:#101d38;color:#fff;padding:22px;text-align:center}
+main{max-width:700px;margin:30px auto;padding:20px}.box{background:#fff;padding:24px;border-radius:18px;box-shadow:0 5px 25px #0001;margin-bottom:18px}
+label{display:block;margin:12px 0 6px;font-weight:bold}input,select{width:100%;padding:13px;border:1px solid #ccd3df;border-radius:10px;font-size:16px}
+button{margin-top:18px;width:100%;padding:14px;border:0;border-radius:10px;background:#1677ff;color:#fff;font-size:17px;cursor:pointer}
+.free{background:#e9f8ee;color:#176c39;padding:12px;border-radius:10px}.msg{margin-top:15px;padding:12px;border-radius:10px;display:none}
+</style>
+</head>
+<body>
+<header><h1>GrowBoost Pro</h1><p>خدمات نمو وتسويق يدوي</p></header>
+<main>
+<div class="box">
+<div class="free">🎁 أول متابعة مجانية — يتم تنفيذها يدويًا.</div>
+<h2>أرسل طلبك</h2>
+<label>المنصة</label>
+<select id="platform"><option>Instagram</option><option>TikTok</option><option>YouTube</option></select>
+<label>اسم الحساب أو الرابط</label>
+<input id="account" placeholder="@username أو رابط الحساب">
+<label>الكمية</label>
+<select id="qty"><option value="1">1 — مجانية لأول طلب</option><option value="100">100 — $1</option><option value="200">200 — $2</option><option value="500">500 — $5</option></select>
+<button onclick="submitOrder()">إرسال الطلب</button>
+<div id="msg" class="msg"></div>
+</div>
+<div class="box"><b>كيف يعمل؟</b><p>بعد إرسال الطلب يظهر لك رقم الطلب. تتم مراجعة الطلب وتنفيذه يدويًا، ثم يتم تحديث حالته.</p></div>
+</main>
+<script>
+async function submitOrder(){
+ const account=document.getElementById('account').value.trim(), platform=document.getElementById('platform').value, qty=+document.getElementById('qty').value;
+ const msg=document.getElementById('msg');
+ if(!account){msg.style.display='block';msg.textContent='أدخل اسم الحساب أو الرابط أولاً.';return}
+ const r=await fetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({platform,account,qty})});
+ const d=await r.json(); msg.style.display='block'; msg.textContent=d.message;
+}
+</script>
+</body></html>
